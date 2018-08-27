@@ -81,8 +81,8 @@ ${host}  https://npl.setam.net.ua
     ${item_number}=  Set Variable  ${item_number.split('-')[-1]}
     Input Text  xpath=//*[@id="asset-${item_number}-description"]  ${item_data.description}
     Convert Input Data To String  xpath=//*[@id="asset-${item_number}-quantity"]  ${item_data.quantity}
-    ${classification_scheme}=  Convert To Lowercase  ${item_data.classification.scheme}
-    Select From List By Value  //div[contains(@class, "asset-item-${item_number}")]/descendant::select[@id="classification-scheme"]  ${classification_scheme}
+    #${classification_scheme}=  Convert To Lowercase  ${item_data.classification.scheme}
+    #Select From List By Value  //div[contains(@class, "asset-item-${item_number}")]/descendant::select[@id="classification-scheme"]  ${classification_scheme}
     Click Element  xpath=//*[@id="classification-${item_number}-description"]
     Wait Until Element Is Visible  xpath=//*[@class="modal-title"]
     Input Text  xpath=//*[@placeholder="Пошук по коду"]  ${item_data.classification.id}
