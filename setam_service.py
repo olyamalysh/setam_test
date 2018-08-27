@@ -4,29 +4,61 @@ from datetime import datetime
 import pytz
 import urllib
 import re
-import os
+
 
 tz = str(datetime.now(pytz.timezone('Europe/Kiev')))[26:]
 
-def prepare_tender_data(role, initial_data):
-    if "tender_owner" in role:
-        initial_data["data"]["assetCustodian"]["identifier"]["id"] = '01010122'
-        initial_data["data"]["assetCustodian"]["identifier"]["legalName"] = u'ТОВ Орган Приватизации'
-        initial_data["data"]["assetCustodian"]["name"] = u'ТОВ Орган Приватизации'
-        initial_data["data"]["assetCustodian"]["contactPoint"]["name"] = u'Гоголь Микола Васильович'
-        initial_data["data"]["assetCustodian"]["contactPoint"]["telephone"] = '+38(101)010-10-10'
-        initial_data["data"]["assetCustodian"]["contactPoint"]["email"] = 'primatization@aditus.info'
-    return initial_data
+
+def prepare_tender_data_asset(tender_data):
+    tender_data['data']['assetCustodian']['identifier']['id'] = u'01010122'
+    tender_data['data']['assetCustodian']['name'] = u'ТОВ Орган Приватизации'
+    tender_data['data']['assetCustodian']['identifier']['legalName'] = u'ТОВ Орган Приватизации'
+    tender_data['data']['assetCustodian']['contactPoint']['name'] = u'Гоголь Микола Васильович'
+    tender_data['data']['assetCustodian']['contactPoint']['telephone'] = u'+38(101)010-10-10'
+    tender_data['data']['assetCustodian']['contactPoint']['email'] = u'testprozorroyowner@gmail.com'
+    for item in range(len(tender_data['data']['items'])):
+        if tender_data['data']['items'][item]['address']['region'] == u'місто Київ':
+            tender_data['data']['items'][item]['address']['region'] = u'Київ'
+    return tender_data
 
 
-def convert_date_for_decision(date):
-    date = datetime.strptime(date, '%Y-%m-%d').strftime('%d/%m/%Y')
-    return date
+def prepare_tender_data(role, data):
+    if role == 'tender_owner' and 'assetCustodian' in data['data']:
+        data = prepare_tender_data_asset(data)
+    return data
+
+
+def convert_date_from_item(date):
+    date = datetime.strptime(date, '%d/%m/%Y %H:%M:%S').strftime('%Y-%m-%d')
+    return '{}T00:00:00{}'.format(date, tz)
+
+
+def convert_date(date):
+    if '.' in date:
+        date = datetime.strptime(date, '%d.%m.%Y %H:%M:%S').strftime('%Y-%m-%dT%H:%M:%S.%f')
+    else:
+        date = datetime.strptime(date, '%d/%m/%Y %H:%M:%S').strftime('%Y-%m-%dT%H:%M:%S.%f')
+    return '{}{}'.format(date, tz)
+
+
+def convert_date_for_item(date):
+    date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S{}'.format(tz)).strftime('%d/%m/%Y %H:%M')
+    return '{}'.format(date)
 
 
 def convert_date_for_auction(date):
     date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f{}'.format(tz)).strftime('%d/%m/%Y %H:%M:%S')
-    return date
+    return '{}'.format(date)
+
+
+def convert_date_from_decision(date):
+    date = datetime.strptime(date, '%d/%m/%Y'.format(tz)).strftime('%Y-%m-%dT%H:%M:%S.%f')
+    return '{}{}'.format(date, tz)
+
+
+def convert_date_for_decision(date):
+    date = datetime.strptime(date, '%Y-%m-%d'.format(tz)).strftime('%d/%m/%Y')
+    return '{}'.format(date)
 
 
 def convert_duration(duration):
@@ -65,36 +97,84 @@ def adapted_dictionary(value):
         u'Перевірка доступності об’єкту': u'verification',
         u'lot.status.pending.deleted': u'pending.deleted',
         u'Лот видалено': u'deleted',
-        u'Інформація про оприлюднення інформаційного повідомлення': u'informationDetails',
+        u'Інформація': u'informationDetails',
         u'об’єктів малої приватизації - аукціон': u'sellout.english',
         u'Заплановано': u'scheduled'
     }.get(value, value)
 
 
-def adapting_date_for_at(field, field_value):
-    field_value = adapted_dictionary(field_value)
-    return field_value
-
-
-def adapting_date_from_item(field, value):
-    if "classification.scheme" in field:
-        value = value.split(" ")[-1]
-    elif "quantity" in field:
-        value = float(value.replace(",","."))
+def adapt_data(field, value):
+    if field == 'tenderAttempts':
+        value = int(value)
+    elif field == 'value.amount':
+        value = float(value)
+    elif field == 'minimalStep.amount':
+        value = float(value.split(' ')[0])
+    elif field == 'guarantee.amount':
+        value = float(value.split(' ')[0])
+    elif field == 'registrationFee.amount':
+        value = float(value.split(' ')[0])
+    elif field == 'quantity':
+        value = float(value.replace(',', '.'))
+    elif field == 'minNumberOfQualifiedBids':
+        value = int(value)
+    elif 'contractPeriod' in field:
+        value = convert_date_from_item(value)
+    elif 'tenderPeriod' in field or 'auctionPeriod' in field or 'rectificationPeriod' in field and 'invalidationDate' not in field:
+        value = convert_date(value)
     else:
         value = adapted_dictionary(value)
     return value
 
 
+def adapt_asset_data(field, value):
+    if 'date' in field:
+        value = convert_date(value)
+    elif 'decisionDate' in field:
+        value = convert_date_from_decision(value.split(' ')[0])
+    elif 'documentType' in field:
+        value = adapted_dictionary(value.split(' ')[0])
+    elif 'rectificationPeriod.endDate' in field:
+        value = convert_date(value)
+    elif 'documentType' in field:
+        value = value
+    else:
+        value = adapted_dictionary(value)
+    return value
+
+
+def adapt_lot_data(field, value):
+    if 'amount' in field:
+        value = float(value.split(' ')[0])
+    elif 'tenderingDuration' in field:
+        value = value.split(' ')[0]
+        if 'M' in value:
+            value = 'P{}'.format(value)
+        else:
+            value = 'P{}D'.format(value)
+    elif 'auctionPeriod.startDate' in field:
+        value = convert_date(value)
+    elif 'classification.id' in field:
+        value = value.split(' - ')[0]
+    elif 'unit.name' in field:
+        value = ' '.join(value.split(' ')[1:])
+    elif 'quantity' in field:
+        value = float(value.split(' ')[0])
+    elif 'registrationFee.amount' in field:
+        value = float(value.split(' ')[0])
+    elif 'tenderAttempts' in field:
+        value = int(value)
+    else:
+        value = adapted_dictionary(value)
+    return value
+
+
+def adapt_edrpou(value):
+    value = str(value)
+    if len(value) == 7:
+        value += '0'
+    return value
+
+
 def download_file(url, filename, folder):
     urllib.urlretrieve(url, ('{}/{}'.format(folder, filename)))
-
-
-#print(convert_date_for_auction('2018-08-21T13:33:18.171968+03:00'))
-
-
-
-
-
-
-
