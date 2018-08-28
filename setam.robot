@@ -485,7 +485,7 @@ Proposition
     Wait Until Element Is Visible  //a[@class="auction_seller_url"]
     ${current_url}=  Get Location
     Capture Page Screenshot
-    Execute Javascript  window['url'] = null; $.get( "${USERS.users['${username}'].homepage}seller/tender/updatebid", { id: "${current_url.split("/")[-1]}"}, function(data){ window['url'] = data.data.participationUrl },'json');
+    Execute Javascript  window['url'] = null; $.get( "${USERS.users['${username}'].homepage}/seller/tender/updatebid", { id: "${current_url.split("/")[-1]}"}, function(data){ window['url'] = data.data.participationUrl },'json');
     Capture Page Screenshot
     Wait Until Keyword Succeeds  20 x  1 s  JQuery Ajax Should Complete
     Capture Page Screenshot
