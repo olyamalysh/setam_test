@@ -569,7 +569,7 @@ ${host}  https://npl.setam.net.ua
     Choose File  xpath=//*[@action="/tender/fileupload"]/input  ${file_path}
     Wait Until Element Is Visible  xpath=(//input[@class="file_name"])[last()]
     Закрити Модалку
-    #Input Text  xpath=(//input[@class="file_name"])[last()]  ${file_path.split('/')[-1]}
+    Input Text  xpath=(//input[@class="file_name"])[last()]  ${file_path.split('/')[-1]}
     Click Element  xpath=//button[@id="submit-cancel-auction"]
     Wait Until Element Is Visible  xpath=//*[@data-test-id="sidebar.cancell"]
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
