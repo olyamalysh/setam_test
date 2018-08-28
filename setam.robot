@@ -369,7 +369,7 @@ Proposition
 
 Пошук тендера по ідентифікатору
     [Arguments]  ${username}  ${tender_uaid}
-    Switch Browser  my_alias
+    Switch Browser  ${my_alias}
     Go To  ${USERS.users['${username}'].homepage}
     Sleep  3
     Закрити Модалку
