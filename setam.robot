@@ -333,8 +333,8 @@ Proposition
     [Arguments]  ${username}  ${status}
     ${url}=  Get Location
     Run Keyword If  ${status.qualified}
-    ...  Go To  http://setam.byustudio.in.ua/bids/send/${url.split('/')[-1]}?token=465
-    ...  ELSE  Go To  http://setam.byustudio.in.ua/bids/decline/${url.split('/')[-1]}?token=465
+    ...  Go To  ${USERS.users['${username}'].homepage}/bids/send/${url.split('/')[-1]}?token=465
+    ...  ELSE  Go To  ${USERS.users['${username}'].homepage}/bids/decline/${url.split('/')[-1]}?token=465
     Go To  ${USERS.users['${username}'].homepage}
 
 
