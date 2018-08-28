@@ -369,40 +369,23 @@ Proposition
 
 Пошук тендера по ідентифікатору
     [Arguments]  ${username}  ${tender_uaid}
-    Switch Browser  ${my_alias}
+    Switch Browser  my_alias
     Go To  ${USERS.users['${username}'].homepage}
     Sleep  3
-    ${status}=  Run Keyword And Return Status  Wait Until Element Is Visible  xpath=//button[@data-dismiss="modal"]  5
-    Run Keyword If  ${status}  Wait Until Keyword Succeeds  5 x  1 s  Click Element  xpath=//button[@data-dismiss="modal"]
-#    Scroll  xpath=//li[@class="dropdown"]/descendant::*[@class="dropdown-toggle"][contains(@href, "tenders")]
-#    Wait Until Element Is Visible  xpath=//li[@class="dropdown"]/descendant::*[@class="dropdown-toggle"][contains(@href, "tenders")]
-#    Click Element  xpath=//li[@class="dropdown"]/descendant::*[@class="dropdown-toggle"][contains(@href, "tenders")]
-#    Click Element  xpath=//*[@class="dropdown-menu"]/descendant::*[contains(@href, "/tenders/index")]
-#    Wait Until Element Is Visible  xpath=//select[@id="attribute-select"]
-#    Select From List By Value  xpath=//select[@id="attribute-select"]  tender_cbd_id
-#    Input Text  xpath=//input[@id="attribute-input"]  ${tender_uaid}
-#    Scroll To  xpath=//a[@id="search"]
-#    Click Element  xpath=//a[@id="search"]
-#    : FOR    ${INDEX}    IN RANGE    1    20
-#    \    ${IsAjaxComplete}    Execute JavaScript    return window.jQuery!=undefined && jQuery.active==0
-#    \    Log    ${INDEX}
-#    \    Log    ${IsAjaxComplete}
-#    \    Run Keyword If    ${IsAjaxComplete}==True    Exit For Loop
-#    Wait Until Element Is Visible  xpath=//div[@class="search-result_t"]/span[contains(text(), "${tender_uaid}")]
-#    Scroll To  xpath=//*[@class="mk-btn mk-btn_default"][contains(@href, "/tender/view/")]
-#    Wait Until Element Is Enabled  xpath=//*[@class="mk-btn mk-btn_default"][contains(@href, "/tender/view/")]
-#    Click Element  xpath=//*[@class="mk-btn mk-btn_default"][contains(@href, "/tender/view/")]
-    Run Keyword If  'Owner' in '${username}'  Go To  ${USERS.users['${username}'].homepage}buyer/tender/view/${tender_uaid}
-    ...  ELSE IF  'Provider' in '${username}'  Go To  ${USERS.users['${username}'].homepage}seller/tender/view/${tender_uaid}
-    ...  ELSE  Go To  ${USERS.users['${username}'].homepage}tender/view/${tender_uaid}
-    ${status}=  Run Keyword And Return Status  Wait Until Element Is Visible  xpath=//button[@data-dismiss="modal"]  5
-    Run Keyword If  ${status}  Wait Until Keyword Succeeds  5 x  1 s  Click Element  xpath=//button[@data-dismiss="modal"]
-    ${url}=  Get Element Attribute  xpath=//a[contains(@href, "tender/json")]@href
-    ${tid}=  Set Variable  ${url.split('/')[-1]}
-    Run Keyword If  'Owner' in '${username}'  Go To  ${USERS.users['${username}'].homepage}buyer/tender/view/${tid}
-    ...  ELSE IF  'Provider' in '${username}'  Go To  ${USERS.users['${username}'].homepage}seller/tender/view/${tid}
-    ...  ELSE  Go To  ${USERS.users['${username}'].homepage}tender/view/${tid}
-    Wait Until Element Is Visible  xpath=//div[@data-test-id="tenderID"]
+    Закрити Модалку
+    Scroll To And Click Element  xpath=//li[@class="dropdown"]/descendant::*[@class="dropdown-toggle"][contains(@href, "tenders")]
+    Click Element  xpath=//*[@class="dropdown-menu"]/descendant::*[contains(@href, "/tenders/index")]
+    Wait Until Element Is Visible  xpath=//button[contains(text(), "Шукати")]
+    Click Element  xpath=//span[@data-target="#additional_filter"]
+    Wait Until Element Is Visible  id=tenderssearch-tender_cbd_id
+    Input Text  id=tenderssearch-tender_cbd_id  ${tender_uaid}
+    Click Element  xpath=//button[@data-test-id="search"]
+    Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//div[@class="search-result"]/descendant::div[contains(text(), "${tender_uaid}")]
+    Wait Until Keyword Succeeds  20 x  1 s  Run Keywords
+    ...  Click Element  xpath=//div[@class="search-result"]/descendant::div[contains(text(), "${tender_uaid}")]/../following-sibling::div/a
+    ...  AND  Wait Until Element Is Not Visible  xpath=//button[contains(text(), "Шукати")]  5
+    Закрити Модалку
+    Wait Until Element Is Visible  xpath=//div[@data-test-id="tenderID"]  20
 
 
 Отримати інформацію із тендера
