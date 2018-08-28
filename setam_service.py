@@ -82,6 +82,7 @@ def adapted_dictionary(value):
         u'Продаж завершений': 'complete',
         u'Торги скасовано': 'cancelled',
         u'Квалiфiкацiя переможця': 'active.qualification',
+        u'Очікується опублікування протоколу': 'active.qualification',
         u'Очікується рішення': 'pending.waiting',
         u'Очікується протокол': 'pending',
         u'Рішення скасоване': 'unsuccessful',
@@ -96,7 +97,7 @@ def adapted_dictionary(value):
         u'Публікація інформаційного повідомлення': u'composing',
         u'Перевірка доступності об’єкту': u'verification',
         u'lot.status.pending.deleted': u'pending.deleted',
-        u'Лот видалено': u'deleted',
+        u'Об’єкт виключено': u'deleted',
         u'Інформація': u'informationDetails',
         u'об’єктів малої приватизації - аукціон': u'sellout.english',
         u'Заплановано': u'scheduled'
