@@ -548,6 +548,7 @@ Proposition
 
 Скасування рішення кваліфікаційної комісії
     [Arguments]  ${username}  ${tender_uaid}  ${number}
+    setam.Пошук Тендера По Ідентифікатору  ${username}  ${tender_uaid}
     setam.Перейти на сторінку кваліфікації
     Wait Until Element Is Visible  //button[contains(text(), "Забрати гарантійний внесок")]
     Click Element  //button[contains(text(), "Забрати гарантійний внесок")]
@@ -561,6 +562,7 @@ Proposition
 
 Завантажити угоду до тендера
     [Arguments]  ${username}  ${tender_uaid}  ${number}  ${file_path}
+    setam.Пошук Тендера По Ідентифікатору  ${username}  ${tender_uaid}
     setam.Перейти на сторінку кваліфікації
     Wait Until Element Is Visible  xpath=//button[contains(text(), "Контракт")]
     Click Element  xpath=//button[contains(text(), "Контракт")]
@@ -581,11 +583,11 @@ Proposition
     Wait Until Element Is Visible  //div[contains(@class, "h2")][contains(text(), "Контракт")]
     ${file}=  my_file_path
     Choose File  //div[@id="uploadcontract"]/descendant::input  ${file}
-    ${sign_date}=  Get Element Attribute  //input[@id="picker-date-signed"]@value
-    ${paid_date}=  adapt_paid_date  ${sign_date}  ${datePaid}
+    #${sign_date}=  Get Element Attribute  //input[@id="picker-date-signed"]@value
+    ${paid_date}=  convert_date_for_auction  ${datePaid}
     Input Text  xpath=//input[@name="Contract[datePaid]"]  ${paid_date}
     Click Element  //button[@id="contract-fill-data"]
-    Wait Until Element Is Not Visible  //div[contains(@class, "h2")][contains(text(), "Контракт")]
+    Wait Until Element Is Visible  xpath=//*[@class="text-success"]
 
 
 Підтвердити підписання контракту

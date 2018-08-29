@@ -124,3 +124,7 @@ def download_file(url, filename, folder):
 def my_file_path():
     return os.path.join(os.getcwd(), 'src', 'robot_tests.broker.setam', 'Doc.pdf')
 
+
+def convert_date_for_auction(date):
+    date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f{}'.format(tz)).strftime('%d/%m/%Y %H:%M:%S')
+    return date
