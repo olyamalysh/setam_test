@@ -592,7 +592,8 @@ Proposition
     [Arguments]  ${username}  ${tender_uaid}  ${number}
     setam.Перейти на сторінку кваліфікації
     Click Element  xpath=//input[@id="contract-activate"]
-    Confirm Action
+    Wait Until Element Is Visible  xpath=//button[@data-bb-handler="confirm"]
+    Click Element  xpath=//button[@data-bb-handler="confirm"]
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
     ...  AND  Page Should Contain Element  //div[@data-test-id="status"][contains(text(), "Продаж завершений")]
