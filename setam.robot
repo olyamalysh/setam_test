@@ -376,6 +376,7 @@ Proposition
     Scroll To And Click Element  xpath=//li[@class="dropdown"]/descendant::*[@class="dropdown-toggle"][contains(@href, "tenders")]
     Click Element  xpath=//*[@class="dropdown-menu"]/descendant::*[contains(@href, "/tenders/index")]
     Wait Until Element Is Visible  xpath=//button[contains(text(), "Шукати")]
+    Закрити Модалку
     Click Element  xpath=//span[@data-target="#additional_filter"]
     Wait Until Element Is Visible  id=tenderssearch-tender_cbd_id
     Input Text  id=tenderssearch-tender_cbd_id  ${tender_uaid}
