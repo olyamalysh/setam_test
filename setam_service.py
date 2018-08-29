@@ -11,19 +11,15 @@ tz = str(datetime.now(pytz.timezone('Europe/Kiev')))[26:]
 
 def prepare_tender_data(role, data):
     if role == 'tender_owner':
-        data['data']['procuringEntity']['name'] = u'Тестовый организатор "Банк Ликвидатор"'
+        data['data']['procuringEntity']['name'] = u'Тестовый "ЗАКАЗЧИК" 2'
+        for item in data['data']['items']:
+            item['address']['region'] = item['address']['region'].replace(u' область', u'')
     return data
 
 
 def convert_date_from_item(date):
     date = datetime.strptime(date, '%d/%m/%Y %H:%M:%S').strftime('%Y-%m-%d')
     return '{}T00:00:00{}'.format(date, tz)
-
-
-def adapt_paid_date(sign_date, date_paid):
-    time = sign_date[-8:]
-    date = datetime.strptime(date_paid, '%Y-%m-%d')
-    return '{} {}'.format(datetime.strftime(date, '%d/%m/%Y'), time)
 
 
 def convert_date(date):
@@ -41,18 +37,10 @@ def convert_date_for_auction(date):
     return '{}'.format(date)
 
 
-def dgf_decision_date_from_site(date):
-    return u'{}-{}-{}'.format(date[-4:], date[-7:-5], date[-10:-8])
-
-
-def dgf_decision_date_for_site(date):
-    return u'{}/{}/{}'.format(date[-2:], date[-5:-3], date[-10:-6])
-
-
 def adapted_dictionary(value):
     return{
         u"з урахуванням ПДВ": True,
-        u"без урахуванням ПДВ": False,
+        u"без урахування ПДВ": False,
         u"True": "1",
         u"False": "0",
         u"Оголошення аукціону з Оренди": "dgfOtherAssets",
@@ -67,27 +55,12 @@ def adapted_dictionary(value):
         u'Продаж завершений': 'complete',
         u'Торги скасовано': 'cancelled',
         u'Торги були відмінені.': 'active',
-        u'Очікується підписання договору': 'active',
-        u'Очікується протокол': 'pending.verification',
-        u'На черзі': 'pending.waiting',
-        u'На розглядi': 'pending',
-        u'Рiшення скасовано': 'cancelled',
-        u'Оплачено, очікується підписання договору': 'active',
-        u'Дискваліфіковано': 'unsuccessful',
-        u'майна банків': 'dgfOtherAssets',
-        u'прав вимоги за кредитами': 'dgfFinancialAssets',
-        u'Голландський аукціон': 'dgfInsider',
-        u'Юридична Інформація про Майданчики': 'x_dgfPlatformLegalDetails',
-        u'Презентація': 'x_presentation',
-        u'Договір NDA': 'x_nda',
-        u'Паспорт торгів': 'tenderNotice',
-        u'Публічний Паспорт Активу': 'technicalSpecifications',
-        u'Ілюстрації': 'illustration',
-        u'Кваліфікаційні вимоги': 'evaluationCriteria',
-        u'Типовий договір': 'contractProforma',
-        u'Погодження змін до опису лоту': 'clarifications',
-        u'Посилання на Публічний Паспорт Активу': 'x_dgfPublicAssetCertificate',
-        u'Інформація про деталі ознайомлення з майном у кімнаті даних': 'x_dgfAssetFamiliarization'
+        # u'Очікується підписання договору': 'pending.payment',
+        # u'Очікується протокол': 'pending.verification',
+        # u'На черзі': 'pending.waiting',
+        # u'Рiшення скасовано': 'cancelled',
+        # u'Оплачено, очікується підписання договору': 'active',
+        # u'Дискваліфіковано': 'unsuccessful'
     }.get(value, value)
 
 
@@ -106,15 +79,15 @@ def adapt_data(field, value):
         value = int(value)
     elif 'contractPeriod' in field:
         value = convert_date_from_item(value)
-    elif 'tenderPeriod' in field or 'auctionPeriod' in field or 'datePaid' in field:
+    elif 'tenderPeriod' in field or 'auctionPeriod' in field or 'rectificationPeriod' in field and 'invalidationDate' not in field:
         value = convert_date(value)
-    elif 'dgfDecisionDate' in field:
-        value = dgf_decision_date_from_site(value)
-    elif 'dgfDecisionID' in field:
-        value = value[-6:]
     else:
         value = adapted_dictionary(value)
     return value
+
+
+def convert_invalidation_date(data):
+    return convert_date(' '.join(data.split(' ')[2:]).strip())
 
 
 def download_file(url, filename, folder):
@@ -123,8 +96,3 @@ def download_file(url, filename, folder):
 
 def my_file_path():
     return os.path.join(os.getcwd(), 'src', 'robot_tests.broker.setam', 'Doc.pdf')
-
-
-def convert_date_for_auction(date):
-    date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f{}'.format(tz)).strftime('%d/%m/%Y %H:%M:%S')
-    return date
