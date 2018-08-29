@@ -398,6 +398,7 @@ Proposition
     ...  ELSE IF  'awards' in '${field}'  Статус Аварду  ${username}  ${tender_uaid}  ${field}
     ...  ELSE IF  'status' in '${field}'  Отримати Статус  ${field}
     ...  ELSE IF  'cancellations' in '${field}'  Get Text  xpath=//*[@data-test-id="${field.replace('[0]','')}"]
+    ...  ELSE IF  'dutchSteps' in '${field}'  Get Text  xpath=//*[@data-test-id='tenderParameters.dutchSteps']
     ...  ELSE IF  '${field}' == 'description'  Get Text  xpath=//*[@data-test-id="description"]
     ...  ELSE IF  'tenderAttempts' in '${field}'  Get Element Attribute  xpath=//*[@data-test-id="tenderAttempts"]@data-test-value
     ...  ELSE IF  '${field}' == 'guarantee.amount'  Get Text  xpath=//*[@data-test-id="guarantee"]
