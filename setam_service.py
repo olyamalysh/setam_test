@@ -106,7 +106,7 @@ def adapt_data(field, value):
         value = int(value)
     elif 'contractPeriod' in field:
         value = convert_date_from_item(value)
-    elif 'tenderPeriod' in field or 'auctionPeriod' in field:
+    elif 'tenderPeriod' in field or 'auctionPeriod' in field or 'datePaid' in field:
         value = convert_date(value)
     elif 'dgfDecisionDate' in field:
         value = dgf_decision_date_from_site(value)

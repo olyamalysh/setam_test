@@ -396,16 +396,28 @@ Proposition
     ${value}=  Run Keyword If
     ...  '${field}' == 'title'  Get Text  xpath=//*[@data-test-id="title"]
     ...  ELSE IF  'awards' in '${field}'  Статус Аварду  ${username}  ${tender_uaid}  ${field}
-    ...  ELSE IF  'status' in '${field}'  Отримати Статус  ${field}
+    ...  ELSE IF  'status' == '${field}'  Отримати Статус  ${field}
     ...  ELSE IF  'cancellations' in '${field}'  Get Text  xpath=//*[@data-test-id="${field.replace('[0]','')}"]
     ...  ELSE IF  'dutchSteps' in '${field}'  Get Text  xpath=//*[@data-test-id='tenderParameters.dutchSteps']
     ...  ELSE IF  '${field}' == 'description'  Get Text  xpath=//*[@data-test-id="description"]
     ...  ELSE IF  'tenderAttempts' in '${field}'  Get Element Attribute  xpath=//*[@data-test-id="tenderAttempts"]@data-test-value
     ...  ELSE IF  '${field}' == 'guarantee.amount'  Get Text  xpath=//*[@data-test-id="guarantee"]
     ...  ELSE IF  '${field}' == 'auctionPeriod.startDate'  Get Text  xpath=//div[@data-test-id="auctionPeriod.startDate"]
+    ...  ELSE IF  'contracts' in '${field}'  Отримати інформацію з контракту  ${username}  ${tender_uaid}  ${field}
     ...  ELSE  Get Text  xpath=//*[@data-test-id='${field.replace('auction', 'tender')}']
 
     ${value}=  adapt_data  ${field}  ${value}
+    [Return]  ${value}
+
+
+Отримати інформацію з контракту
+    [Arguments]  ${username}  ${tender_uaid}  ${field}
+    setam.Пошук Тендера По Ідентифікатору  ${username}  ${tender_uaid}
+    setam.Перейти на сторінку кваліфікації
+    Click Element  xpath=//button[@class="mk-btn mk-btn_default"][contains(text(), 'Контракт')]
+    Wait Until Element Is Visible  xpath=//div[contains(text(),"Дата пiдписання договору")]
+    ${value}=  Run Keyword If
+    ...  'datePaid' in '${field}'  Get Text  xpath=//div[contains(text(),"Дата сплати")]/following-sibling::div[1]
     [Return]  ${value}
 
 
