@@ -276,8 +276,8 @@ ${acceleration}=  720
     ${item_name}=  Get Text  xpath=//*[@id="question-questionof"]/descendant::*[contains(text(), "${item_id}")]
     Select From List By Label  xpath=//select[@id="question-questionof"]  ${item_name}
     Click Element  //button[@name="question_submit"]
-    Click Element  xpath=//a[contains(@href, "tender/json")]
-    Wait Until Page Contains  ${question.data.title}
+    Wait Until Keyword Succeeds  20 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
+    #Wait Until Page Contains  ${question.data.title}
 
 
 Подати цінову пропозицію
