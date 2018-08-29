@@ -628,8 +628,9 @@ Proposition
     Click Element  xpath=(//*[@name="Award[cause][]"])[1]/..
     Choose File  //div[@id="disqualification-form-upload-file"]/descendant::input[@name="FileUpload[file][]"]  ${file}
     Input Text  //textarea[@id="award-description"]  ${description}
-    Click Element  //button[@id="disqualification"]
-    Wait Until Keyword Succeeds  20 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
+    Wait Until Keyword Succeeds  10 x  2 s  Run Keywords
+    ...  Click Element  //button[@id="disqualification"]
+    ...  AND  Wait Until Keyword Succeeds  10 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
     Capture Page Screenshot
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
