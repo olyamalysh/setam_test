@@ -855,7 +855,7 @@ ${host}  https://npl.setam.net.ua
     Click Element  xpath=//button[@data-bb-handler="confirm"]
     Wait Until Keyword Succeeds  10 x  5 s  Run Keywords
     ...  Reload Page
-    ...  AND  Page Should Contain Element  xpath=//div[@data-test-id="status"][contains(text(), "Продаж завершений")]
+    ...  AND  Page Should Contain Element  xpath=//div[@data-test-id="status"][contains(text(), "Аукціон відбувся (або 1 учасник)")]
 
 Перейти на сторінку кваліфікації
     ${status_q}=  Run Keyword And Return Status  Page Should Contain Element  xpath=//a[contains(text(), "Таблиця квалiфiкацiї")]  3
