@@ -615,7 +615,7 @@ Proposition
     Choose File  //div[@id="disqualification-form-upload-file"]/descendant::input[@name="FileUpload[file][]"]  ${file}
     Input Text  //textarea[@id="award-description"]  ${description}
     Click Element  //button[@id="disqualification"]
-    Wait Until Element Is Not Visible  xpath=//button[@id="disqualification"]
+    Wait Until Keyword Succeeds  20 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
     Capture Page Screenshot
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
