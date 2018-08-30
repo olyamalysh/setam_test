@@ -87,12 +87,15 @@ def adapted_dictionary(value):
         u'Типовий договір': 'contractProforma',
         u'Погодження змін до опису лоту': 'clarifications',
         u'Посилання на Публічний Паспорт Активу': 'x_dgfPublicAssetCertificate',
-        u'Інформація про деталі ознайомлення з майном у кімнаті даних': 'x_dgfAssetFamiliarization'
+        u'Інформація про деталі ознайомлення з майном у кімнаті даних': 'x_dgfAssetFamiliarization',
+        u'Контракт підписано та активовано': 'active'
     }.get(value, value)
 
 
 def adapt_data(field, value):
     if field == 'tenderAttempts':
+        value = int(value)
+    elif 'dutchSteps' in field:
         value = int(value)
     elif field == 'value.amount':
         value = float(value)

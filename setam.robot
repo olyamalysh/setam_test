@@ -405,7 +405,6 @@ Proposition
     ...  ELSE IF  '${field}' == 'auctionPeriod.startDate'  Get Text  xpath=//div[@data-test-id="auctionPeriod.startDate"]
     ...  ELSE IF  'contracts' in '${field}'  Отримати інформацію з контракту  ${username}  ${tender_uaid}  ${field}
     ...  ELSE  Get Text  xpath=//*[@data-test-id='${field.replace('auction', 'tender')}']
-
     ${value}=  adapt_data  ${field}  ${value}
     [Return]  ${value}
 
@@ -418,6 +417,7 @@ Proposition
     Wait Until Element Is Visible  xpath=//div[contains(text(),"Дата пiдписання договору")]
     ${value}=  Run Keyword If
     ...  'datePaid' in '${field}'  Get Text  xpath=//div[contains(text(),"Дата сплати")]/following-sibling::div[1]
+    ...  ELSE IF  'status' in '${field}'  Get Text  xpath=//div[contains(text(),"Статус контракту")]/following-sibling::div[1]
     [Return]  ${value}
 
 
