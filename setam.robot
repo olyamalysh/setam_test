@@ -121,6 +121,7 @@ ${host}  https://npl.setam.net.ua
     Go To  ${USERS.users['${username}'].homepage}
     Sleep  3
     Закрити Модалку
+    Click Element  xpath=//a[@class="dropdown-toggle"][contains(text(),"м.Приватизація")]
     Click Element  xpath=//*[@id="h-menu"]/descendant::a[contains(@href, "assets/index")]
     Wait Until Element Is Visible  xpath=//button[contains(text(), "Шукати")]
     Input Text  id=assetssearch-asset_cbd_id  ${tender_uaid}
