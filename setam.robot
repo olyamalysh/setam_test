@@ -251,7 +251,7 @@ ${acceleration}=  720
     Close Sidebar
     Input Text  //*[@data-test-id="question.title"][contains(text(), "${question_id}")]/following-sibling::form[contains(@action, "tender/questions")]/descendant::textarea  ${answer.data.answer}
     Scroll To And Click Element  //*[@data-test-id="question.title"][contains(text(), "${question_id}")]/../descendant::button[@name="answer_question_submit"]
-    Wait Until Element Is Not Visible  xpath=//*[@data-test-id="question.title"][contains(text(), "${question_id}")]/following-sibling::form[contains(@action, "tender/questions")]/descendant::textarea
+    Wait Until Keyword Succeeds  20 x  1 s  Wait Until Element Is Not Visible  xpath=//*[@data-test-id="question.title"][contains(text(), "${question_id}")]/following-sibling::form[contains(@action, "tender/questions")]/descendant::textarea
 
 
 Задати запитання на тендер
@@ -602,6 +602,11 @@ Proposition
     Input Text  xpath=//input[@name="Contract[datePaid]"]  ${paid_date}
     Click Element  //button[@id="contract-fill-data"]
     Wait Until Element Is Visible  xpath=//*[@class="text-success"]
+    Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
+    ...  Reload Page
+    ...  AND  Capture Page Screenshot
+    ...  AND  Page Should Not Contain Element  xpath=//*[@class="text-success"]
+    Capture Page Screenshot
 
 
 Підтвердити підписання контракту
