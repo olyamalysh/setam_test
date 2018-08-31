@@ -48,7 +48,6 @@ ${acceleration}=  720
     Click Element  xpath=//button[@name="login-button"]
 
 
-
 Створити тендер
     [Arguments]  ${tender_owner}  ${tender_data}
     Run Keyword And Ignore Error  Закрити Модалку
@@ -125,8 +124,6 @@ ${acceleration}=  720
     Run Keyword And Ignore Error  Click Element  xpath=(//button[@class="remove-item"])[last()]
 
 
-
-
 Скасувати закупівлю
     [Arguments]  ${tender_owner}  ${tender_uaid}  ${cancellation_reason}  ${file_path}  ${cancellation_description}
     setam.Пошук Тендера По Ідентифікатору  ${tender_owner}  ${tender_uaid}
@@ -141,7 +138,6 @@ ${acceleration}=  720
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
     ...  AND  Page Should Contain Element  xpath=//*[@data-test-id-cancellation-status="active"]
-
 
 
 Внести зміни в тендер
@@ -173,11 +169,9 @@ ${acceleration}=  720
     setam.Завантажити документ в тендер з типом  ${tender_owner}  ${tender_uaid}  ${file_path}  clarifications
 
 
-
 Завантажити ілюстрацію
     [Arguments]  ${tender_owner}  ${tender_uaid}  ${file_path}
     setam.Завантажити документ в тендер з типом  ${tender_owner}  ${tender_uaid}  ${file_path}  illustration
-
 
 
 Завантажити документ в тендер з типом
@@ -238,8 +232,6 @@ ${acceleration}=  720
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
     ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
-
-
 
 
 Відповісти на запитання
@@ -644,7 +636,7 @@ Scroll To And Click Element
 
 Закрити Модалку
     ${status}=  Run Keyword And Return Status  Wait Until Element Is Visible  xpath=//button[@data-dismiss="modal"]  5
-    Run Keyword If  ${status}  Wait Until Keyword Succeeds  5 x  1 s  Run Keywords
+    Run Keyword If  ${status}  Run Keyword And Ignore Error  Wait Until Keyword Succeeds  5 x  1 s  Run Keywords
     ...  Click Element  xpath=//button[@data-dismiss="modal"]
     ...  AND  Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
 
@@ -660,15 +652,6 @@ Convert Input Data To String
     [Arguments]  ${locator}  ${value}
     ${value}=  Convert To String  ${value}
     Input Text  ${locator}  ${value}
-
-
-#Get Data
-#    [Arguments]  ${tender_data}
-#    [Return]  ${tender_data.data}
-
-
-#Close Sidebar
-#    Click Element  xpath=//*[@id="slidePanelToggle"]
 
 
 Wait For Document Upload
