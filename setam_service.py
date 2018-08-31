@@ -88,7 +88,8 @@ def adapted_dictionary(value):
         u'Погодження змін до опису лоту': 'clarifications',
         u'Посилання на Публічний Паспорт Активу': 'x_dgfPublicAssetCertificate',
         u'Інформація про деталі ознайомлення з майном у кімнаті даних': 'x_dgfAssetFamiliarization',
-        u'Контракт підписано та активовано': 'active'
+        u'Контракт підписано та активовано': 'active',
+        u'Порушення порядку публікації оголошення': 'active'
     }.get(value, value)
 
 
