@@ -10,7 +10,7 @@ Library  setam_service.py
 ${acceleration}=  720
 
 *** Keywords ***
-# CDB 1
+
 
 Підготувати клієнт для користувача
     [Arguments]  ${username}
@@ -52,7 +52,7 @@ ${acceleration}=  720
 Створити тендер
     [Arguments]  ${tender_owner}  ${tender_data}
     Run Keyword And Ignore Error  Закрити Модалку
-    ${data}=  Get Data  ${tender_data}
+    ${data}=  Set Variable  ${tender_data.data}
     ${items}=  Get From Dictionary  ${tender_data.data}  items
     Click Element  xpath=//li[@class="dropdown"]/descendant::*[@class="dropdown-toggle"][contains(@href, "tenders")]
     Click Element  xpath=//*[@class="dropdown-menu"]/descendant::*[contains(@href, "/tenders/index")]
@@ -248,7 +248,7 @@ ${acceleration}=  720
     Click Element  xpath=//*[@data-test-id="sidebar.questions"]
     Wait Until Element Is Not Visible  xpath=//*[@data-test-id="sidebar.questions"]
     setam.Закрити Модалку
-    Close Sidebar
+    Click Element  xpath=//*[@id="slidePanelToggle"]
     Input Text  //*[@data-test-id="question.title"][contains(text(), "${question_id}")]/following-sibling::form[contains(@action, "tender/questions")]/descendant::textarea  ${answer.data.answer}
     Scroll To And Click Element  //*[@data-test-id="question.title"][contains(text(), "${question_id}")]/../descendant::button[@name="answer_question_submit"]
     Wait Until Keyword Succeeds  20 x  1 s  Wait Until Element Is Not Visible  xpath=//*[@data-test-id="question.title"][contains(text(), "${question_id}")]/following-sibling::form[contains(@action, "tender/questions")]/descendant::textarea
@@ -277,7 +277,6 @@ ${acceleration}=  720
     Select From List By Label  xpath=//select[@id="question-questionof"]  ${item_name}
     Click Element  //button[@name="question_submit"]
     Wait Until Keyword Succeeds  20 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
-    #Wait Until Page Contains  ${question.data.title}
 
 
 Подати цінову пропозицію
@@ -308,7 +307,6 @@ ${acceleration}=  720
     Select From List By Value  xpath=(//select[@class="select_document_type"])[last()]  financialLicense
     Click Element  //button[@id="submit_bid"]
     Wait Until Keyword Succeeds  10 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
-
 
 
 Змінити цінову пропозицію
@@ -349,13 +347,11 @@ Proposition
     Wait Until Keyword Succeeds  10 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
 
 
-
 Змінити документ в ставці
     [Arguments]  ${username}  ${tender_uaid}  ${file_path}  ${docid}
     setam.Пошук Тендера По Ідентифікатору  ${username}  ${tender_uaid}
     Scroll  //*[@action="/tender/fileupload"]/input
     Choose File  xpath=(//input[@name="FileUpload[file]"])[last()]  ${file_path}
-
 
 
 Отримати інформацію із пропозиції
@@ -452,8 +448,6 @@ Proposition
     [Return]  ${n_items}
 
 
-
-
 Отримати інформацію із документа
     [Arguments]  ${username}  ${tender_uaid}  ${doc_id}  ${field}
     ${value}=  Get Text  //a[contains(text(), '${doc_id}')]
@@ -499,11 +493,8 @@ Proposition
     setam.Пошук Тендера По Ідентифікатору  ${username}  ${tender_uaid}
     Wait Until Element Is Visible  //a[@class="auction_seller_url"]
     ${current_url}=  Get Location
-    Capture Page Screenshot
     Execute Javascript  window['url'] = null; $.get( "${USERS.users['${username}'].homepage}/seller/tender/updatebid", { id: "${current_url.split("/")[-1]}"}, function(data){ window['url'] = data.data.participationUrl },'json');
-    Capture Page Screenshot
     Wait Until Keyword Succeeds  20 x  1 s  JQuery Ajax Should Complete
-    Capture Page Screenshot
     ${link}=  Execute Javascript  return window['url'];
     [Return]  ${link}
 
@@ -517,12 +508,8 @@ Proposition
     ...  AND  Page Should Contain  Квалiфiкацiя учасникiв
     Page Should Not Contain Element  xpath=//*[contains(text(), "Таблиця квалiфiкацiї")]
     ${award}=  Convert To Integer  ${field[7:8]}
-    Capture Page Screenshot
     ${status}=  Get Text  xpath=(//div[@data-mtitle="Статус:"])[${award + 1}]
     [Return]  ${status}
-
-
-
 
 
 Завантажити протокол аукціону
@@ -546,19 +533,9 @@ Proposition
     Wait Until Page Contains  Очікується підписання договору
 
 
-
-
 Підтвердити постачальника
     [Arguments]  ${username}  ${tender_uaid}  ${number}
-    setam.Перейти на сторінку кваліфікації
-#    Wait Until Element Is Visible  //button[contains(text(), "Підтвердити отримання оплати")]
-#    Click Element  //button[contains(text(), "Підтвердити отримання оплати")]
-#    Wait Until Element Is Visible  //div[contains(text(), "Оплата буде підтверджена")]
-#    Click Element  //*[@class="modal-footer"]/button[contains(text(), "Застосувати")]
-#    Wait Until Element Is Not Visible  //*[@class="modal-footer"]/button[contains(text(), "Застосувати")]
-#    Wait Until Keyword Succeeds  10 x  2 s  Run Keywords
-    Reload Page
-    Page Should Contain Element  xpath=//button[contains(text(), "Контракт")]
+    Log  Необхідні дії було виконано у "Завантажити протокол аукціону в авард"
 
 
 Скасування рішення кваліфікаційної комісії
@@ -598,16 +575,13 @@ Proposition
     Wait Until Element Is Visible  //div[contains(@class, "h2")][contains(text(), "Контракт")]
     ${file}=  my_file_path
     Choose File  //div[@id="uploadcontract"]/descendant::input  ${file}
-    #${sign_date}=  Get Element Attribute  //input[@id="picker-date-signed"]@value
     ${paid_date}=  convert_date_for_auction  ${datePaid}
     Input Text  xpath=//input[@name="Contract[datePaid]"]  ${paid_date}
     Click Element  //button[@id="contract-fill-data"]
     Wait Until Element Is Visible  xpath=//*[@class="text-success"]
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
-    ...  AND  Capture Page Screenshot
     ...  AND  Page Should Not Contain Element  xpath=//*[@class="text-success"]
-    Capture Page Screenshot
 
 
 Підтвердити підписання контракту
@@ -626,24 +600,18 @@ Proposition
     setam.Перейти на сторінку кваліфікації
     ${file}=  my_file_path
     Wait Until Element Is Visible  xpath=//button[@data-toggle="modal"][contains(text(), "Дисквалiфiкувати")]
-    Capture Page Screenshot
     Click Element  //button[@data-toggle="modal"][contains(text(), "Дисквалiфiкувати")]
     Wait Until Element Is Visible  //div[contains(@class, "h2")][contains(text(), "Дискваліфікація")]
     Wait Until Element Is Visible  xpath=(//*[@name="Award[cause][]"])[1]/..
-    Capture Page Screenshot
     Click Element  xpath=(//*[@name="Award[cause][]"])[1]/..
     Choose File  //div[@id="disqualification-form-upload-file"]/descendant::input[@name="FileUpload[file][]"]  ${file}
     Input Text  //textarea[@id="award-description"]  ${description}
     Wait Until Keyword Succeeds  10 x  2 s  Run Keywords
     ...  Click Element  //button[@id="disqualification"]
     ...  AND  Wait Until Keyword Succeeds  10 x  1 s  Element Should Be Visible  xpath=//div[contains(@class,'alert-success')]
-    Capture Page Screenshot
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
-    ...  AND  Capture Page Screenshot
     ...  AND  Page Should Not Contain Element  xpath=//button[@onclick="window.location.reload();"]
-
-
 
 
 Scroll
@@ -694,13 +662,13 @@ Convert Input Data To String
     Input Text  ${locator}  ${value}
 
 
-Get Data
-    [Arguments]  ${tender_data}
-    [Return]  ${tender_data.data}
+#Get Data
+#    [Arguments]  ${tender_data}
+#    [Return]  ${tender_data.data}
 
 
-Close Sidebar
-    Click Element  xpath=//*[@id="slidePanelToggle"]
+#Close Sidebar
+#    Click Element  xpath=//*[@id="slidePanelToggle"]
 
 
 Wait For Document Upload
