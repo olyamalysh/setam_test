@@ -527,6 +527,9 @@ Proposition
 
 Підтвердити постачальника
     [Arguments]  ${username}  ${tender_uaid}  ${number}
+    setam.Перейти на сторінку кваліфікації
+    Reload Page
+    Page Should Contain Element  xpath=//button[contains(text(), "Контракт")]
     Log  Необхідні дії було виконано у "Завантажити протокол аукціону в авард"
 
 
