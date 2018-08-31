@@ -397,7 +397,7 @@ Proposition
     ...  '${field}' == 'title'  Get Text  xpath=//*[@data-test-id="title"]
     ...  ELSE IF  'awards' in '${field}'  Статус Аварду  ${username}  ${tender_uaid}  ${field}
     ...  ELSE IF  'status' == '${field}'  Отримати Статус  ${field}
-    ...  ELSE IF  'cancellations' in '${field}'  Get Element Attribute  xpath=//div[@data-test-id-cancellation-status]@data-test-id-cancellation-status
+    ...  ELSE IF  'cancellations' in '${field}' and 'status' in '${field}'  Get Element Attribute  xpath=//div[@data-test-id-cancellation-status]@data-test-id-cancellation-status
     ...  ELSE IF  'dutchSteps' in '${field}'  Get Text  xpath=//*[@data-test-id='tenderParameters.dutchSteps']
     ...  ELSE IF  '${field}' == 'description'  Get Text  xpath=//*[@data-test-id="description"]
     ...  ELSE IF  'tenderAttempts' in '${field}'  Get Element Attribute  xpath=//*[@data-test-id="tenderAttempts"]@data-test-value
