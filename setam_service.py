@@ -40,6 +40,10 @@ def convert_date_for_auction(date):
     date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f{}'.format(tz)).strftime('%d/%m/%Y %H:%M')
     return '{}'.format(date)
 
+def convert_date_for_datePaid(date):
+    date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f{}'.format(tz)).strftime('%d/%m/%Y %H:%M:%S')
+    return date
+
 
 def dgf_decision_date_from_site(date):
     return u'{}-{}-{}'.format(date[-4:], date[-7:-5], date[-10:-8])
@@ -128,6 +132,3 @@ def my_file_path():
     return os.path.join(os.getcwd(), 'src', 'robot_tests.broker.setam', 'Doc.pdf')
 
 
-def convert_date_for_auction(date):
-    date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f{}'.format(tz)).strftime('%d/%m/%Y %H:%M:%S')
-    return date

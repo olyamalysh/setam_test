@@ -570,7 +570,7 @@ Proposition
     Wait Until Element Is Visible  //div[contains(@class, "h2")][contains(text(), "Контракт")]
     ${file}=  my_file_path
     Choose File  //div[@id="uploadcontract"]/descendant::input  ${file}
-    ${paid_date}=  convert_date_for_auction  ${datePaid}
+    ${paid_date}=  convert_date_for_datePaid  ${datePaid}
     Input Text  xpath=//input[@name="Contract[datePaid]"]  ${paid_date}
     Click Element  //button[@id="contract-fill-data"]
     Wait Until Element Is Visible  xpath=//*[@class="text-success"]
