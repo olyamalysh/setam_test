@@ -918,3 +918,22 @@ Convert Input Data To String
 JQuery Ajax Should Complete
     ${active}=  Execute Javascript  return jQuery.active
     Should Be Equal  "${active}"  "0"
+
+
+Активувати контракт
+    [Arguments]  ${username}  ${tender_uaid}
+
+
+Скасувати контракт
+    [Arguments]
+
+
+Отримати інформацію з активу в договорі
+    [Arguments]  ${username}  ${tender_uaid}  ${item_id}  ${field}
+
+
+Вказати дату отримання оплати
+    [Arguments]  ${username}  ${tender_uaid}  ${date_paid}
+
+
+Отримати дані із договору
