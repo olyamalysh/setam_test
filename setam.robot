@@ -921,19 +921,81 @@ JQuery Ajax Should Complete
 
 
 Активувати контракт
-    [Arguments]  ${username}  ${tender_uaid}
+    [Arguments]  ${username}  ${contract_uaid}
+    Sleep  300
 
 
-Скасувати контракт
-    [Arguments]
+Пошук договору по ідентифікатору
+    [Arguments]  ${username}  ${contract_uaid}
+    Switch Browser  my_alias
+    Go To  ${USERS.users['${username}'].homepage}
+    Sleep  3
+    Закрити Модалку
+    Click Element  xpath=//a[@class="dropdown-toggle"][contains(text(),"м.Приватизація")]
+    Click Element  xpath=//*[@id="h-menu"]/descendant::a[contains(@href, "contracting")]
+    Wait Until Element Is Visible  xpath=//button[contains(text(), "Шукати")]
+    Input Text  id=contractingsearch-contract_cbd_id  ${contract_uaid}
+    Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//div[@class="search-result"]/descendant::div[contains(text(), "${contract_uaid}")]
+    Wait Until Keyword Succeeds  20 x  3 s  Run Keywords
+    ...  Click Element  xpath=//div[@class="search-result"]/descendant::div[contains(text(), "${contract_uaid}")]/../../div[2]/a[contains(@href, "/contracting/view")]
+    ...  AND  Wait Until Element Is Not Visible  xpath=//button[contains(text(), "Шукати")]  10
+    Закрити Модалку
+
+
+Отримати інформацію із договору
+    [Arguments]  ${username}  ${contract_uaid}  ${field}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+   
+    [Return]  ${value}
 
 
 Отримати інформацію з активу в договорі
-    [Arguments]  ${username}  ${tender_uaid}  ${item_id}  ${field}
+    [Arguments]  ${username}  ${contract_uaid}  ${item_id}  ${field_name}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+    
+    [Return]  ${item_value}
 
 
 Вказати дату отримання оплати
-    [Arguments]  ${username}  ${tender_uaid}  ${date_paid}
+    [Arguments]  ${username}  ${contract_uaid}  ${dateMet}  ${index}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+    Click Element  xpath=//button[@class="mk-btn mk-btn_default"][contains(text(), "Оплата договору")]
+    Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//div[@class="h2 text-center"][contains(text(), "Оплата договору")]
+    Click Element  xpath=//select[@id="milestone-status"]
+    Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${dateMet}
+    Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
 
 
-Отримати дані із договору
+Підтвердити відсутність оплати
+    [Arguments]  ${username}  ${contract_uaid}  ${index}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+    Click Element  xpath=//button[@class="mk-btn mk-btn_default"][contains(text(), "Оплата договору")]
+    Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//div[@class="h2 text-center"][contains(text(), "Оплата договору")]
+    Select From List By Value  xpath=//select[@id="milestone-status"]  notMet
+    Click Element  xpath=//button[@class="mk-btn mk-btn_accept"][contains(text(),"Завантажити дані")]
+    Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
+
+
+Завантажити наказ про завершення приватизації
+    [Arguments]  ${username}  ${contract_uaid}  ${file_path}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+
+
+Вказати дату прийняття наказу
+    [Arguments]  ${username}  ${contract_uaid}  ${dateMet}
+
+
+Підтвердити відсутність наказу про приватизацію
+    [Arguments]  ${username}  ${contract_uaid}  ${file_path}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+
+
+Вказати дату виконання умов контракту
+    [Arguments]  ${username}  ${contract_uaid}  ${dateMet}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+ 
+
+
+Підтвердити невиконання умов приватизації
+    [Arguments]  ${username}  ${contract_uaid}
+    setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}

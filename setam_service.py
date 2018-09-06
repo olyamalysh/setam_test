@@ -102,7 +102,9 @@ def adapted_dictionary(value):
         u'Об’єкт виключено': u'deleted',
         u'Інформація': u'informationDetails',
         u'об’єктів малої приватизації - аукціон': u'sellout.english',
-        u'Заплановано': u'scheduled'
+        u'Заплановано': u'scheduled',
+        u'Виконано': u'met',
+        u'Не виконано': u'notMet'
     }.get(value, value)
 
 
