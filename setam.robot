@@ -7,7 +7,7 @@ Library  DateTime
 Library  setam_service.py
 
 *** Variables ***
-${acceleration}=  720
+${acceleration}=  144
 
 *** Keywords ***
 
@@ -73,7 +73,7 @@ ${acceleration}=  720
     :FOR  ${item}  IN RANGE  ${items_length}
     \  Log  ${items[${item}]}
     \  Run Keyword If  ${item} > 0  Scroll To And Click Element  xpath=//button[@id="add-item"]
-    \  Додати Предмет Закупівлі  ${item}  ${items[${item}]}
+    \  setam.Додати Предмет Закупівлі  ${item}  ${items[${item}]}
     ${auction_date}=  convert_date_for_auction  ${data.auctionPeriod.startDate}
     Input Text  //*[@id="auction-start-date"]  ${auction_date}
     Input Text  //*[@id="contactpoint-name"]  ${data.procuringEntity.contactPoint.name}
@@ -107,13 +107,6 @@ ${acceleration}=  720
     Input Text  xpath=//*[@id="deliveryaddress-${item}-locality"]  ${item_data.deliveryAddress.locality}
     Input Text  xpath=//*[@id="deliveryaddress-${item}-streetaddress"]  ${item_data.deliveryAddress.streetAddress}
     Input Text  xpath=//*[@id="deliveryaddress-${item}-postalcode"]  ${item_data.deliveryAddress.postalCode}
-
-
-Додати предмет закупівлі
-    [Arguments]  ${tender_owner}  ${tender_uaid}  ${item}
-    setam.Пошук Тендера По Ідентифікатору  ${tender_owner}  ${tender_uaid}
-    Wait For Document Upload
-    Run Keyword And Ignore Error  Click Element  xpath=//button[@id="add-item"]
 
 
 Видалити предмет закупівлі
