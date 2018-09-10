@@ -4,6 +4,7 @@ from datetime import datetime
 import pytz
 import urllib
 import re
+import os
 
 
 tz = str(datetime.now(pytz.timezone('Europe/Kiev')))[26:]
@@ -183,3 +184,7 @@ def adapt_edrpou(value):
 
 def download_file(url, filename, folder):
     urllib.urlretrieve(url, ('{}/{}'.format(folder, filename)))
+
+
+def get_upload_file_path():
+    return os.path.join(os.getcwd(), 'src/robot_tests.broker.setam/Doc.pdf')
