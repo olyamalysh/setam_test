@@ -73,7 +73,7 @@ ${acceleration}=  144
     :FOR  ${item}  IN RANGE  ${items_length}
     \  Log  ${items[${item}]}
     \  Run Keyword If  ${item} > 0  Scroll To And Click Element  xpath=//button[@id="add-item"]
-    \  Додати Предмет Закупівлі  ${item}  ${items[${item}]}
+    \  setam.Додати Предмет Закупівлі  ${item}  ${items[${item}]}
     ${auction_date}=  convert_date_for_auction  ${data.auctionPeriod.startDate}
     Input Text  //*[@id="auction-start-date"]  ${auction_date}
     Input Text  //*[@id="contactpoint-name"]  ${data.procuringEntity.contactPoint.name}
