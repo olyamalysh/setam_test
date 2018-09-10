@@ -947,6 +947,7 @@ JQuery Ajax Should Complete
     [Arguments]  ${username}  ${contract_uaid}  ${field}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
     ${value}=  Get Text  xpath=//div[@data-test-id="status"]
+    ${value}=  adapt_lot_data  ${value}
     [Return]  ${value}
 
 
@@ -985,7 +986,6 @@ JQuery Ajax Should Complete
     Click Element  xpath=//div[contains(text(), 'Додати документ')]
     Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про приватизацію
-    setam.Вказати дату прийняття наказу  ${username}  ${contract_uaid}
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
 
@@ -1002,7 +1002,7 @@ JQuery Ajax Should Complete
     Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${dateMet}
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
-    [Return]
+
 
 
 Підтвердити відсутність наказу про приватизацію

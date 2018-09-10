@@ -105,7 +105,8 @@ def adapted_dictionary(value):
         u'об’єктів малої приватизації - аукціон': u'sellout.english',
         u'Заплановано': u'scheduled',
         u'Виконано': u'met',
-        u'Не виконано': u'notMet'
+        u'Не виконано': u'notMet',
+        u'Завершений': u'terminated'
     }.get(value, value)
 
 
