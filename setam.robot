@@ -947,7 +947,7 @@ JQuery Ajax Should Complete
     [Arguments]  ${username}  ${contract_uaid}  ${field}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
     ${value}=  Get Text  xpath=//div[@data-test-id="status"]
-    ${value}=  adapt_lot_data  ${value}
+    ${value}=  adapt_lot_data  ${field}  ${value}
     [Return]  ${value}
 
 
