@@ -106,7 +106,8 @@ def adapted_dictionary(value):
         u'Заплановано': u'scheduled',
         u'Виконано': u'met',
         u'Не виконано': u'notMet',
-        u'Завершений': u'terminated'
+        u'Завершений': u'terminated',
+        u'Не успішний': u'unsuccessful'
     }.get(value, value)
 
 
