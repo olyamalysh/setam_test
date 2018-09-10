@@ -700,6 +700,7 @@ ${host}  https://npl.setam.net.ua
     ${link}=  Execute Javascript  return window['url'];
     [Return]  ${link}
 
+
 Отримати посилання на аукціон для глядача
     [Arguments]  ${viewer}  ${tender_uaid}
     setam.Пошук Тендера По Ідентифікатору  ${viewer}  ${tender_uaid}
@@ -945,14 +946,14 @@ JQuery Ajax Should Complete
 Отримати інформацію із договору
     [Arguments]  ${username}  ${contract_uaid}  ${field}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
-   
+    ${value}=  Get Text  xpath=//div[@data-test-id="status"]
     [Return]  ${value}
 
 
 Отримати інформацію з активу в договорі
     [Arguments]  ${username}  ${contract_uaid}  ${item_id}  ${field_name}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
-    
+    ${item_value}=  Get Text  xpath=//div[@data-test-id="item.description"]
     [Return]  ${item_value}
 
 
