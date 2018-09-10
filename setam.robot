@@ -980,23 +980,50 @@ JQuery Ajax Should Complete
 Завантажити наказ про завершення приватизації
     [Arguments]  ${username}  ${contract_uaid}  ${file_path}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+    Click Element  xpath=//button[contains(text(), 'Наказ про завершення')]
+    Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//button[contains(text(), 'Завантажити дані')]
+    Click Element  xpath=//div[contains(text(), 'Додати документ')]
+    Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
+    Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про приватизацію
+    setam.Вказати дату прийняття наказу
+    Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
+    Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
 
 
 Вказати дату прийняття наказу
     [Arguments]  ${username}  ${contract_uaid}  ${dateMet}
+    Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${dateMet}
 
 
 Підтвердити відсутність наказу про приватизацію
     [Arguments]  ${username}  ${contract_uaid}  ${file_path}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+    Click Element  xpath=//button[contains(text(), 'Наказ про завершення')]
+    Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//button[contains(text(), 'Завантажити дані')]
+    Click Element  xpath=//div[contains(text(), 'Додати документ')]
+    Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
+    Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про завершення приватизації відсутній
+    Select From List By Value  xpath=//select[@id="milestone-status"]  notMet
+    Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
+    Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
+
 
 
 Вказати дату виконання умов контракту
     [Arguments]  ${username}  ${contract_uaid}  ${dateMet}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
- 
+    Click Element  xpath=//button[contains(text(), 'Виконання умов продажу')]
+    Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${dateMet}
 
 
 Підтвердити невиконання умов приватизації
     [Arguments]  ${username}  ${contract_uaid}
     setam.Пошук договору по ідентифікатору  ${username}  ${contract_uaid}
+    Click Element  xpath=//button[contains(text(), 'Виконання умов продажу')]
+    Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//button[contains(text(), 'Завантажити дані')]
+    Click Element  xpath=//div[contains(text(), 'Додати документ')]
+    Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
+    Select From List By Label  xpath=//select[@id="document-0-documenttype"]  conflictOfInterest
+    Select From List By Value  xpath=//select[@id="milestone-status"]  notMet
+    Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
+    Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
