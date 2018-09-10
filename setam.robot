@@ -965,6 +965,7 @@ JQuery Ajax Should Complete
     Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//div[@class="h2 text-center"][contains(text(), "Оплата договору")]
     Click Element  xpath=//select[@id="milestone-status"]
     Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${dateMet}
+    Click Element  xpath=//button[@class="mk-btn mk-btn_accept"][contains(text(),"Завантажити дані")]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
 
 
