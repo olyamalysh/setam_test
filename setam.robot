@@ -73,7 +73,7 @@ ${acceleration}=  144
     :FOR  ${item}  IN RANGE  ${items_length}
     \  Log  ${items[${item}]}
     \  Run Keyword If  ${item} > 0  Scroll To And Click Element  xpath=//button[@id="add-item"]
-    \  setam.Додати Предмет Закупівлі  ${item}  ${items[${item}]}
+    \  setam.Додати Предмет   ${item}  ${items[${item}]}
     ${auction_date}=  convert_date_for_auction  ${data.auctionPeriod.startDate}
     Input Text  //*[@id="auction-start-date"]  ${auction_date}
     Input Text  //*[@id="contactpoint-name"]  ${data.procuringEntity.contactPoint.name}
@@ -86,7 +86,7 @@ ${acceleration}=  144
     [Return]  ${auction_id}
 
 
-Додати Предмет Закупівлі
+Додати Предмет
     [Arguments]  ${item}  ${item_data}
     Input Text  xpath=//*[@id="item-${item}-description"]  ${item_data.description}
     Convert Input Data To String  xpath=//*[@id="item-${item}-quantity"]  ${item_data.quantity}
@@ -107,6 +107,16 @@ ${acceleration}=  144
     Input Text  xpath=//*[@id="deliveryaddress-${item}-locality"]  ${item_data.deliveryAddress.locality}
     Input Text  xpath=//*[@id="deliveryaddress-${item}-streetaddress"]  ${item_data.deliveryAddress.streetAddress}
     Input Text  xpath=//*[@id="deliveryaddress-${item}-postalcode"]  ${item_data.deliveryAddress.postalCode}
+
+
+Додати предмет закупівлі
+    [Arguments]  ${tender_owner}  ${tender_uaid}  ${item_data}
+    setam.Пошук Тендера По Ідентифікатору  ${tender_owner}  ${tender_uaid}
+    Wait For Document Upload
+    Click Element  xpath=//button[@id="add-item"]
+    ${item_number}=  Get Element Attribute  xpath=(//input[contains(@class, "item-id")])[last()]@id
+    ${item_number}=  Set Variable  ${item_number.split('-')[-2]}
+    setam.Додати Предмет  ${item}  ${item_data}
 
 
 Видалити предмет закупівлі
