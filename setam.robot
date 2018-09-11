@@ -985,7 +985,7 @@ JQuery Ajax Should Complete
     Click Element  xpath=//button[contains(text(), 'Наказ про завершення')]
     Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//button[contains(text(), 'Завантажити дані')]
     Click Element  xpath=//div[contains(text(), 'Додати документ')]
-    Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
+    Choose File  xpath=//input[contains(@id,"ajax-upload-id")]  ${file_path}
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про приватизацію
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
@@ -998,7 +998,7 @@ JQuery Ajax Should Complete
     Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//button[contains(text(), 'Завантажити дані')]
     Click Element  xpath=//div[contains(text(), 'Додати документ')]
     ${file_path}=   get_upload_file_path
-    Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
+    Choose File  xpath=//input[contains(@id,"ajax-upload-id")]  ${file_path}
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про приватизацію
     Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${dateMet}
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
@@ -1012,7 +1012,7 @@ JQuery Ajax Should Complete
     Click Element  xpath=//button[contains(text(), 'Наказ про завершення')]
     Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//button[contains(text(), 'Завантажити дані')]
     Click Element  xpath=//div[contains(text(), 'Додати документ')]
-    Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
+    Choose File  xpath=//input[contains(@id,"ajax-upload-id")]  ${file_path}
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про завершення приватизації відсутній
     Select From List By Value  xpath=//select[@id="milestone-status"]  notMet
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
@@ -1034,7 +1034,7 @@ JQuery Ajax Should Complete
     Wait Until Keyword Succeeds  10 x  1 s  Wait Until Element Is Visible  xpath=//button[contains(text(), 'Завантажити дані')]
     Click Element  xpath=//div[contains(text(), 'Додати документ')]
     ${file_path}=   get_upload_file_path
-    Choose File  xpath=//div[@id="uploadcontract"]/descendant::input  ${file_path}
+    Choose File  xpath=//input[contains(@id,"ajax-upload-id")]  ${file_path}
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  conflictOfInterest
     Select From List By Value  xpath=//select[@id="milestone-status"]  notMet
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
