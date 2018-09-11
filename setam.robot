@@ -989,6 +989,9 @@ JQuery Ajax Should Complete
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про приватизацію
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
+    Wait Until Keyword Succeeds  30 x  10 s  Run Keywords
+    ...  Reload Page
+    ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
 
 
 Вказати дату прийняття наказу
@@ -1018,7 +1021,9 @@ JQuery Ajax Should Complete
     Select From List By Value  xpath=//select[@id="milestone-status"]  notMet
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
-
+    Wait Until Keyword Succeeds  30 x  10 s  Run Keywords
+    ...  Reload Page
+    ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
 
 
 Вказати дату виконання умов контракту
@@ -1041,3 +1046,6 @@ JQuery Ajax Should Complete
     Select From List By Value  xpath=//select[@id="milestone-status"]  notMet
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
+    Wait Until Keyword Succeeds  30 x  10 s  Run Keywords
+    ...  Reload Page
+    ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
