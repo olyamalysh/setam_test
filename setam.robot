@@ -117,6 +117,8 @@ ${acceleration}=  144
     ${item_number}=  Get Element Attribute  xpath=(//input[contains(@class, "item-id")])[last()]@id
     ${item_number}=  Set Variable  ${item_number.split('-')[-2]}
     setam.Додати Предмет  ${item}  ${item_data}
+    Click Element  //*[@name="simple_submit"]
+    Wait Until Element Is Visible  xpath=//div[@data-test-id="tenderID"]  20
 
 
 Видалити предмет закупівлі
