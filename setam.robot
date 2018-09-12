@@ -117,6 +117,13 @@ ${acceleration}=  144
     ${item_number}=  Get Element Attribute  xpath=(//input[contains(@class, "item-id")])[last()]@id
     ${item_number}=  Set Variable  ${item_number.split('-')[-2]}
     setam.Додати Предмет  ${item_number}  ${item_data}
+    Scroll To  xpath=//*[@action="/tender/fileupload"]/input
+    ${file}=  my_file_path
+    Choose File  xpath=(//*[@action="/tender/fileupload"]/input)[last()]  ${file}
+    Wait Until Element Is Visible  xpath=(//*[@class="document-title"])[last()]
+    Input Text  xpath=(//*[@class="document-title"])[last()]  Погодження змін до опису лоту
+    Select From List By Value  xpath=(//*[@class="document-type"])[last()]  clarifications
+    Select From List By Value  xpath=(//*[@class="document-related-item"])[last()]  tender
     Click Element  //*[@name="simple_submit"]
     Wait Until Element Is Visible  xpath=//div[@data-test-id="tenderID"]  20
 
