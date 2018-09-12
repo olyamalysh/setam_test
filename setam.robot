@@ -440,7 +440,7 @@ Proposition
 
 Отримати кількість предметів в тендері
     [Arguments]  ${username}  ${tender_uaid}
-    ${items}=  Get Matching Xpath Count  xpath=//div[@data-test-id="item-description"]
+    ${items}=  Get Matching Xpath Count  xpath=//div[@data-test-id="item.description"]
     ${n_items}=  Convert To Integer  ${items}
     [Return]  ${n_items}
 
