@@ -113,7 +113,7 @@ ${acceleration}=  144
     [Arguments]  ${tender_owner}  ${tender_uaid}  ${item_data}
     setam.Пошук Тендера По Ідентифікатору  ${tender_owner}  ${tender_uaid}
     Wait For Document Upload
-    Click Element  xpath=//button[@id="add-item"]
+    Scroll To And Click Element  xpath=//button[@id="add-item"]
     ${item_number}=  Get Element Attribute  xpath=(//input[contains(@class, "item-id")])[last()]@id
     ${item_number}=  Set Variable  ${item_number.split('-')[-2]}
     setam.Додати Предмет  ${item}  ${item_data}
