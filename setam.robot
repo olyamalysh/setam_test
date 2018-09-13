@@ -989,10 +989,10 @@ JQuery Ajax Should Complete
     Choose File  xpath=//input[contains(@id,"ajax-upload-id")]  ${file_path}
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про приватизацію
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
-    Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
-    Wait Until Keyword Succeeds  30 x  10 s  Run Keywords
-    ...  Reload Page
-    ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
+#    Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
+#    Wait Until Keyword Succeeds  30 x  10 s  Run Keywords
+#    ...  Reload Page
+#    ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
 
 
 Вказати дату прийняття наказу
@@ -1004,10 +1004,13 @@ JQuery Ajax Should Complete
     ${file_path}=   get_upload_file_path
     Choose File  xpath=//input[contains(@id,"ajax-upload-id")]  ${file_path}
     Select From List By Label  xpath=//select[@id="document-0-documenttype"]  Наказ про приватизацію
-    Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${dateMet}
+    ${date_nakaz}  convert_date_for_date_paid  ${dateMet}
+    Input Date Auction  xpath=//input[@name="Milestone[dateMet]"]  ${date_nakaz}
     Click Element  xpath=//button[@class="mk-btn mk-btn_accept"]
     Wait Until Element Is Not Visible  xpath=//*[contains(@class, "modal-backdrop")]
-
+    Wait Until Keyword Succeeds  30 x  10 s  Run Keywords
+    ...  Reload Page
+    ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
 
 
 Підтвердити відсутність наказу про приватизацію
