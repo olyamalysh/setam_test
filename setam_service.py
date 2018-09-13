@@ -47,6 +47,11 @@ def convert_date_for_item(date):
     return '{}'.format(date)
 
 
+def convert_date_for_date_paid(date):
+    date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S{}'.format(tz)).strftime('%d.%m.%Y %H:%M')
+    return '{}'.format(date)
+
+
 def convert_date_for_auction(date):
     date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%f{}'.format(tz)).strftime('%d/%m/%Y %H:%M:%S')
     return '{}'.format(date)
@@ -190,3 +195,4 @@ def download_file(url, filename, folder):
 
 def get_upload_file_path():
     return os.path.join(os.getcwd(), 'src/robot_tests.broker.setam/Doc.pdf')
+
