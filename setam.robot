@@ -128,7 +128,7 @@ ${acceleration}=  144
     Wait Until Keyword Succeeds  30 x  20 s  Run Keywords
     ...  Reload Page
     ...  AND  Wait Until Page Does Not Contain   Документ завантажується...  10
-    Wait Until Element Is Visible  xpath=//div[@data-test-id="tenderID"]  20
+#    Wait Until Element Is Visible  xpath=//div[@data-test-id="tenderID"]  20
 
 
 Видалити предмет закупівлі
