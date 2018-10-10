@@ -440,7 +440,6 @@ ${host}  https://npl.setam.net.ua
     ${last_input_number}=  Get Element Attribute  xpath=(//input[contains(@class, "document-title") and not (contains(@id, "__empty__"))])[last()]@id
     ${last_input_number}=  Set Variable  ${last_input_number.split('-')[1]}
     Input Text  xpath=(//input[@id="document-${last_input_number}-title"])[last()]  ${file_path.split('/')[-1]}
-    Select From List By Label  xpath=(//select[@id="document-${last_input_number}-level"])[last()]  Аукціон № ${new_index}
     Select From List By Value  xpath=(//select[@id="document-${last_input_number}-documenttype"])[last()]  ${doc_type}
     Scroll To And Click Element  id=btn-submit-form
     Wait Until Element Is Visible  xpath=//div[@data-test-id="lotID"]
